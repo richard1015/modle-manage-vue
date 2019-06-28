@@ -14,13 +14,13 @@
       </div> -->
     </Modal>
     <div class="drag-list-wrapper">
-      <draggable class="drop-box1" :class="dropConClass.left" :options="options" :value="list1"
-        @input="handleListChange($event, 'left')" @end="handleEnd($event, 'left')">
+      <draggable  :class="dropConClass.left" :options="options" :value="list1"
+        @input="handleListChange($event, dropConClass.left[0])" @end="handleEnd($event, dropConClass.left[0])">
         <div class="drag-list-item" v-for="(itemLeft, index) in list1" :key="`drag_li1_${index}`">
           <div class="sBtn02 allY" slot="content">
             <div class="addNode">
               <img src="../../assets/folder2.png" alt=""><br>
-              <span>{{itemLeft.name}}</span>
+              <span :for='itemLeft.id'>{{itemLeft.name}}</span>
               <div class="list-container">
                 <ul class="btn-list">
                   <li>
@@ -65,7 +65,8 @@
       dropConClass: {
         type: Object,
         default: () => ({})
-      }
+      },
+     
     },
     data() {
       return {
@@ -97,6 +98,7 @@
 
       },
       handleEnd(event, type) {
+        debugger
         const srcClassName = (event.srcElement || event.target).classList[0]
         const targetClassName = event.to.classList[0]
         let src = ''
@@ -119,10 +121,11 @@
           }
         }
         this.$emit('on-change', {
-          src: src,
-          target: target,
+          src: srcClassName,
+          target: targetClassName,
           oldIndex: event.oldIndex,
-          newIndex: event.newIndex
+          newIndex: event.newIndex,
+          ele:event.item
         })
       }
     }

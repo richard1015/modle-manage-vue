@@ -45,7 +45,7 @@
       <Button class="selfB" type="success" icon="ios-add-circle-outline" @click="modal1=true">添加分组</Button>
     </div>
     <Collapse v-model='initShow'>
-      <Panel :key='item.name' class="panelTitle" v-for="item in items">
+      <Panel :key='item.name' class="panelTitle" v-for="(item,index) in items">
         {{item.name}}
         <div class="tool">
           <Icon type="ios-settings-outline" class="iicon" @click="update" />
@@ -57,7 +57,7 @@
             <span>添加应用</span>
           </div>
         </div>
-        <node-ying :list='item.list' slot="content"></node-ying>
+        <node-ying :list='item.list' :ind='index' :itemss='items' @change-item="changeItem" slot="content"></node-ying>
       </Panel>
     </Collapse>
 
@@ -129,11 +129,11 @@
             name: '第一个',
             id: 1,
             list: [{
-                "name": "PAS",
+                "name": "PAS1",
                 "id": 210
               },
               {
-                "name": "SASS",
+                "name": "SASS1",
                 "id": 230
               }
             ]
@@ -142,11 +142,11 @@
             name: '第二个',
             id: 2,
             list: [{
-                "name": "PAS",
+                "name": "PAS2",
                 "id": 210
               },
               {
-                "name": "SASS",
+                "name": "SASS2",
                 "id": 230
               }
 
@@ -156,11 +156,11 @@
             name: '第三个',
             id: 3,
             list: [{
-                "name": "SGATA",
+                "name": "SGATA3",
                 "id": 240
               },
               {
-                "name": "ABD",
+                "name": "ABD3",
                 "id": 250
               }
             ]
@@ -218,8 +218,8 @@
           var obj = {}
           obj['name'] = this.formInline1.chn;
           obj['id'] = this.formInline1.eng;
-          obj['list'] = []
-          items.push(obj)
+          obj['list'] = [];
+          this.items.push(obj);
           this.modal1 = false;
         }
 
@@ -232,6 +232,9 @@
         this.$refs['formInline'].resetFields();
         this.$refs['formInline1'].resetFields();
       },
+      changeItem(item) {
+        this.items = item;
+      }
     },
     mounted() {
 

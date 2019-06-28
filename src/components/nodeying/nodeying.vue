@@ -9,17 +9,17 @@
   import DragList from '../drag-list'
   export default {
     name: 'NodeYing',
-    props: ["list"],
+    props: ["list", 'ind', 'itemss'],
     components: {
       DragList
     },
     data() {
       return {
         dropConClass: {
-          left: ['drop-box', 'left-drop-box']
+          left: ['drop-box' + this.ind, 'left-drop-box']
         },
-        handleList: [],
-        list1:this.list
+        items: this.itemss,
+        list1: this.list
         // list1: [{
         //     "name": "PAS",
         //     "id": 210
@@ -32,23 +32,42 @@
       }
     },
     methods: {
-      deleteY:function(id){
-       var arr=this.list1;
-        for(var i=0;i<arr.length;i++){
-          if(arr[i].id==id){
-            arr.splice(i,1)
+      deleteY: function (id) {
+        var arr = this.list1;
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i].id == id) {
+            arr.splice(i, 1)
           }
         }
-        this.list1=arr
-        debugger
+        this.list1 = arr
+
       },
       handleChange({
         src,
         target,
         oldIndex,
-        newIndex
+        newIndex,
+        ele
       }) {
-        this.handleList.push(`${src} => ${target}, ${oldIndex} => ${newIndex}`)
+        debugger
+        var nowArr = this.list1;
+        var name = ele.getElementsByTagName("span")[0].innerText,
+          id = ele.getElementsByTagName("span")[0].getAttribute("for");
+        //  this.list1 = nowArr;
+        // this.items=[];
+
+        nowArr.splice(oldIndex, 1)
+        var srcIndex = Number(src.substring(8)),
+          targetIndex = Number(target.substring(8));
+        this.items[srcIndex]['list'] = nowArr;
+        var arrr = this.items[targetIndex]['list'];
+        arrr.splice(newIndex, 0, {
+          name: name,
+          id: id
+        })
+        this.items[targetIndex]['list'] = arrr;
+        this.$emit('change-item', this.items);
+        debugger
       }
     },
   }
