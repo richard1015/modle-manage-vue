@@ -45,7 +45,7 @@
       <Button class="selfB" type="success" icon="ios-add-circle-outline" @click="modal1=true">添加分组</Button>
     </div>
     <Collapse v-model='initShow'>
-      <Panel :key='item.name' class="panelTitle" v-for="(item,index) in items">
+      <Panel :key='item.name'  :name="item.name" class="panelTitle" v-for="(item,index) in items">
         {{item.name}}
         <div class="tool">
           <Icon type="ios-settings-outline" class="iicon" @click="update" />
